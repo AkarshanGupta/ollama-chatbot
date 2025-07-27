@@ -127,6 +127,15 @@ npm run dev
 ## 📸 Screenshots
 
 > Chat UI, Sidebar, and History stored in PostgreSQL via Prisma.
+> <img width="1914" height="953" alt="image" src="https://github.com/user-attachments/assets/996a0acf-660b-4c0e-9f12-6e465db62e9a" />
+
+
+
+https://github.com/user-attachments/assets/87a3fb1e-308f-4157-806e-a011dacbbdf3
+
+
+
+
 
 ---
 
