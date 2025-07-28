@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { Send, Square, Loader2 } from 'lucide-react';
+import { Send, Square, Loader2, MessageSquare, Bot, Sparkles } from 'lucide-react';
 import Message from './Message';
 
 interface Message {
@@ -189,21 +189,32 @@ export default function ChatBox({ chatId, onUpdateChats }: ChatBoxProps) {
   return (
     <div className="flex-1 flex flex-col">
       {/* Chat Header */}
-      <div className="bg-white border-b border-gray-200 px-6 py-4">
-        <h1 className="text-xl font-semibold text-gray-900">{chat.title}</h1>
+      <div className="bg-white/80 backdrop-blur-sm border-b border-slate-200/50 px-6 py-5 shadow-sm">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+            <MessageSquare className="w-4 h-4 text-white" />
+          </div>
+          <h1 className="text-xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">{chat.title}</h1>
+        </div>
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto bg-white">
+      <div className="flex-1 overflow-y-auto bg-gradient-to-b from-white via-slate-50/30 to-blue-50/20">
         <div className="max-w-4xl mx-auto">
           {chat.messages.length === 0 ? (
-            <div className="flex items-center justify-center h-full py-12">
+            <div className="flex items-center justify-center h-full py-20">
               <div className="text-center">
-                <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Send className="w-6 h-6 text-gray-400" />
+                <div className="relative mx-auto mb-6">
+                  <div className="w-20 h-20 bg-gradient-to-br from-blue-100 to-purple-100 rounded-2xl flex items-center justify-center mx-auto shadow-lg">
+                    <Send className="w-8 h-8 text-slate-400" />
+                  </div>
+                  <div className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center animate-bounce">
+                    <Sparkles className="w-3 h-3 text-white" />
+                  </div>
                 </div>
-                <p className="text-gray-500 text-lg">Start the conversation</p>
-                <p className="text-gray-400 text-sm mt-1">Type a message below to begin</p>
+                <h3 className="text-2xl font-bold text-slate-700 mb-2">Ready to Chat!</h3>
+                <p className="text-slate-500 text-lg mb-1">Start the conversation with your AI assistant</p>
+                <p className="text-slate-400 text-sm">Type a message below to begin your journey</p>
               </div>
             </div>
           ) : (
@@ -225,14 +236,18 @@ export default function ChatBox({ chatId, onUpdateChats }: ChatBoxProps) {
               )}
               
               {isStreaming && !streamingMessage && (
-                <div className="flex items-start gap-4 px-6 py-4">
-                  <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
-                    <span className="text-white text-sm font-medium">AI</span>
+                <div className="flex items-start gap-4 px-6 py-6 bg-gradient-to-r from-green-50/50 to-blue-50/50">
+                  <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg animate-pulse">
+                    <Bot className="w-5 h-5 text-white" />
                   </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 text-gray-500">
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      <span className="text-sm">AI is thinking...</span>
+                  <div className="flex-1 pt-1">
+                    <div className="flex items-center gap-3">
+                      <div className="flex gap-1">
+                        <div className="w-2 h-2 bg-green-500 rounded-full animate-bounce"></div>
+                        <div className="w-2 h-2 bg-green-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                        <div className="w-2 h-2 bg-green-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                      </div>
+                      <span className="text-sm font-medium text-slate-600">AI is thinking...</span>
                     </div>
                   </div>
                 </div>
@@ -244,21 +259,21 @@ export default function ChatBox({ chatId, onUpdateChats }: ChatBoxProps) {
       </div>
 
       {/* Input */}
-      <div className="bg-white border-t border-gray-200 p-4">
+      <div className="bg-white/90 backdrop-blur-sm border-t border-slate-200/50 p-6 shadow-lg">
         <div className="max-w-4xl mx-auto">
-          <div className="flex items-end gap-3">
-            <div className="flex-1 relative">
+          <div className="flex items-end gap-4">
+            <div className="flex-1 relative group">
               <textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyPress}
                 placeholder="Type your message..."
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-5 py-4 border-2 border-slate-200 rounded-2xl resize-none focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-400 transition-all duration-200 bg-white/80 backdrop-blur-sm shadow-sm hover:shadow-md placeholder-slate-400 group-hover:border-slate-300"
                 rows={1}
                 style={{
-                  minHeight: '44px',
+                  minHeight: '52px',
                   maxHeight: '120px',
-                  height: Math.min(120, Math.max(44, input.split('\n').length * 20 + 24)),
+                  height: Math.min(120, Math.max(52, input.split('\n').length * 24 + 28)),
                 }}
                 disabled={isStreaming}
               />
@@ -267,25 +282,36 @@ export default function ChatBox({ chatId, onUpdateChats }: ChatBoxProps) {
             {isStreaming ? (
               <button
                 onClick={stopStreaming}
-                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors flex items-center gap-2"
+                className="group px-6 py-4 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-2xl hover:from-red-600 hover:to-red-700 transition-all duration-200 flex items-center gap-3 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105"
               >
-                <Square className="w-4 h-4" />
+                <Square className="w-5 h-5 group-hover:animate-pulse" />
                 Stop
               </button>
             ) : (
               <button
                 onClick={sendMessage}
                 disabled={!input.trim()}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
+                className="group px-6 py-4 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 text-white rounded-2xl hover:from-blue-700 hover:via-purple-700 hover:to-indigo-700 disabled:from-slate-300 disabled:to-slate-400 disabled:cursor-not-allowed transition-all duration-200 flex items-center gap-3 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 disabled:transform-none disabled:shadow-none"
               >
-                <Send className="w-4 h-4" />
+                <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
                 Send
               </button>
             )}
           </div>
           
-          <div className="mt-2 text-xs text-gray-500 text-center">
-            Press Enter to send, Shift+Enter for new line, Esc to stop
+          <div className="mt-4 flex items-center justify-center gap-6 text-xs text-slate-500">
+            <div className="flex items-center gap-2">
+              <kbd className="px-2 py-1 bg-slate-100 rounded border text-slate-600 font-mono">Enter</kbd>
+              <span>Send</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <kbd className="px-2 py-1 bg-slate-100 rounded border text-slate-600 font-mono">Shift+Enter</kbd>
+              <span>New line</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <kbd className="px-2 py-1 bg-slate-100 rounded border text-slate-600 font-mono">Esc</kbd>
+              <span>Stop</span>
+            </div>
           </div>
         </div>
       </div>
